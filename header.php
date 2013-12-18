@@ -1,6 +1,6 @@
 <?php 
 // Set BASE url
-$BASE = file_exists('local.txt') ? 'http://scottdonaldson.dev/dugoff-2.0' : 'http://www.ddugoff.com';
+$BASE = file_exists('local.txt') ? 'http://localhost/dugoff-2.0' : 'http://www.ddugoff.com';
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +18,9 @@ $BASE = file_exists('local.txt') ? 'http://scottdonaldson.dev/dugoff-2.0' : 'htt
     
     <link rel="author" href="<?= $BASE; ?>/humans.txt">
 
+    <link rel="stylesheet" href="<?= $BASE; ?>/css/normalize.css">
     <link rel="stylesheet" href="<?= $BASE; ?>/css/style.css">
+    
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="<?= $BASE; ?>/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
     <script src="<?= $BASE; ?>/js/vendor/modernizr.js"></script>
@@ -33,6 +35,10 @@ $BASE = file_exists('local.txt') ? 'http://scottdonaldson.dev/dugoff-2.0' : 'htt
     <![endif]-->
 
 <header>
+    <h1 class="visuallyhidden">DDUGOFF</h1>
+    <a href="<?= $BASE; ?>">
+        <img src="<?= $BASE; ?>/images/logo.png" alt="DDUGOFF">
+    </a>
+</header>
 
-<main>
-    <h1>DDUGOFF</h1>
+<main>    

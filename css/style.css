@@ -30,6 +30,87 @@
    
 @font-face {font-family: 'Trade Gothic';src: url('../fonts/295954_1_0.eot');src: url('../fonts/295954_1_0.eot?#iefix') format('embedded-opentype'),url('../fonts/295954_1_0.woff') format('woff'),url('../fonts/295954_1_0.ttf') format('truetype'); font-weight: bold; font-style: normal; }
 
+/* ----- Base styles ----- */
+
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	position: relative;
+}
+
 body {
+	color: #002539;
 	font-family: 'Trade Gothic';
+	padding: 10px;
+	text-transform: uppercase;
+}
+
+img {
+	height: auto;
+	max-width: 100%;
+}
+
+a, a:visited {
+	color: #002539;
+	text-decoration: none;
+}
+
+a:active, a:hover, a:focus {
+	color: #aaa;
+	text-decoration: none;
+}
+
+.lowercase {
+	text-transform: none;
+}
+
+/* ----- Header ----- */
+
+header {
+	padding-bottom: 10px;
+	z-index: 999;
+}
+
+header a img {
+	display: block;
+	margin: 0 auto;
+	width: 300px;
+}
+
+/* ----- Images ----- */
+
+#images {
+	width: 100%;
+}
+
+#images img {
+	cursor: pointer;
+	display: none;
+	left: 50%;
+	margin: 0 auto;
+	max-height: 100%;
+	position: absolute;
+	top: 0;
+	width: auto;
+}
+
+/* ----- Footer ----- */
+
+footer {
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	padding: 10px 0;
+	position: fixed;
+	width: 100%;
+}
+
+footer nav a {
+	display: inline-block;
+	padding: 10px 30px;
+}
+
+footer .copyright {
+	font-size: 0.9em;
 }

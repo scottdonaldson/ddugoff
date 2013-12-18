@@ -1,7 +1,15 @@
 </main>
 
-<footer class="full-width overflow">
+<footer>
+	<nav>
+		<a href="<?= $BASE; ?>/about">About</a>
+		<a href="<?= $BASE; ?>/contact">Contact</a>
+		<a href="<?= $BASE; ?>/stockists">Stockists</a>
+	</nav>
 
+	<div class="copyright">
+		&copy; <?= date('Y'); ?> DDUGOFF.COM ALL RIGHTS RESERVED
+	</div>
 </footer> 
 
 </div><!-- #page -->
