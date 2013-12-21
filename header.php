@@ -2,8 +2,13 @@
 // Set BASE url
 $BASE = file_exists('local.txt') || file_exists('../local.txt') ? 'http://localhost/dugoff-2.0' : 'http://www.ddugoff.com';
 ?>
-
 <!DOCTYPE html>
+<!--
+
+    Site by Parsley & Sprouts
+    http://www.parsleyandsprouts.com
+
+-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
@@ -15,8 +20,6 @@ $BASE = file_exists('local.txt') || file_exists('../local.txt') ? 'http://localh
     <title>DDUGOFF</title>
 
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    
-    <link rel="author" href="<?= $BASE; ?>/humans.txt">
 
     <link rel="stylesheet" href="<?= $BASE; ?>/css/normalize.css">
     <link rel="stylesheet" href="<?= $BASE; ?>/css/style.css">

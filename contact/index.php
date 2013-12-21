@@ -2,7 +2,7 @@
 
 <div id="content" class="center">
 	<strong>All inquiries</strong>
-	<p class="lowercase">info at ddugoff dot com</p>
+	<p class="lowercase">info @ ddugoff dot com</p>
 </div>
 
 <?php include('../footer.php'); ?>

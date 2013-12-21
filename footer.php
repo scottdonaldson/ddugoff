@@ -7,8 +7,8 @@
 		<a href="<?= $BASE; ?>/stockists">Stockists</a>
 	</nav>
 
-	<div class="copyright">
-		&copy; <?= date('Y'); ?> DDUGOFF.COM ALL RIGHTS RESERVED
+	<div class="copyright uppercase">
+		&copy; <?= date('Y'); ?> DDUGOFF all rights reserved
 	</div>
 </footer> 
 
