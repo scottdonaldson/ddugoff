@@ -5,45 +5,39 @@
 		header = $('header'),
 		footer = $('footer');
 
-	var imagesContainer = $('#images');
+	var imagesContainer = $('#images'),
+		images;
 	function resizeImageContainer() {
-		// Find the visible image and give it a negative left margin
-		var visible = imagesContainer.find('img:visible');
-
-		if ( visible.length === 0 ) {
-			visible = imagesContainer.find('img:first').css('display', 'block');
-		}
-
-		visible.css({
-			marginLeft: -0.5 * visible.width()
-		});
 
 		// Set height of container
 		imagesContainer.height( win.height() - header.outerHeight() - footer.outerHeight() );
 
-		// If the visible image is less tall than the container, position it accordingly
-		if ( visible.height() < imagesContainer.height() ) {
-			visible.css({
-				top: ( imagesContainer.height() - visible.height() ) / 2
-			});
+		// Find the visible image and position it
+		var visible = imagesContainer.find('img:visible');
+
+		// If no images are visible, then the page has just loaded and we choose the first image
+		if ( visible.length === 0 ) {
+			visible = imagesContainer.find('img:first').fadeIn(100);
 		}
+		visible.css({
+			left: ( imagesContainer.width() - visible.width() ) / 2,
+			top: ( imagesContainer.height() - visible.height() ) / 2 > 0 ? ( imagesContainer.height() - visible.height() ) / 2 : 0
+		});
 	}
-	win.resize( resizeImageContainer );
+	win.on( 'load resize', resizeImageContainer );
 
 	function showNextImage() {
 		var target = imagesContainer.find('img:visible').next().length > 0 ? imagesContainer.find('img:visible').next() : imagesContainer.find('img').first();
-		$(this).fadeOut();
-		target.fadeIn(function(){
-			target.css('display', 'block');
-			resizeImageContainer();
+		$(this).fadeOut(100);
+		target.fadeIn(100).css({
+			left: ( imagesContainer.width() - target.width() ) / 2,
+			top: ( imagesContainer.height() - target.height() ) / 2 > 0 ? ( imagesContainer.height() - target.height() ) / 2 : 0
 		});
 	}
 
 	imagesContainer.find('img').click(showNextImage);
-	resizeImageContainer();
 
-	win.load(function(){
-		resizeImageContainer();
+	win.load(function() {
 		$('.preload').removeClass('preload');
 	});
 

@@ -1,6 +1,6 @@
 <?php 
 // Set BASE url
-$BASE = file_exists('local.txt') ? 'http://localhost/dugoff-2.0' : 'http://www.ddugoff.com';
+$BASE = file_exists('local.txt') || file_exists('../local.txt') ? 'http://localhost/dugoff-2.0' : 'http://www.ddugoff.com';
 ?>
 
 <!DOCTYPE html>

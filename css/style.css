@@ -42,6 +42,7 @@
 body {
 	color: #002539;
 	font-family: 'Trade Gothic';
+	font-size: 18px;
 	padding: 10px;
 	text-transform: uppercase;
 }
@@ -61,14 +62,14 @@ a:active, a:hover, a:focus {
 	text-decoration: none;
 }
 
-.lowercase {
-	text-transform: none;
-}
+.center { text-align: center; }
+.lowercase { text-transform: none; }
+.uppercase { text-transform: uppercase; }
 
 /* ----- Header ----- */
 
 header {
-	padding-bottom: 10px;
+	padding: 0 20px 10px;
 	z-index: 999;
 }
 
@@ -87,12 +88,18 @@ header a img {
 #images img {
 	cursor: pointer;
 	display: none;
-	left: 50%;
-	margin: 0 auto;
 	max-height: 100%;
 	position: absolute;
 	top: 0;
 	width: auto;
+}
+
+/* ----- Pages ------ */
+
+#content {
+	padding: 0 20px;
+	margin: 20px auto;
+	max-width: 500px;
 }
 
 /* ----- Footer ----- */
@@ -110,6 +117,13 @@ footer nav a {
 	display: inline-block;
 	padding: 10px 30px;
 }
+
+	@media screen and (max-width: 500px) {
+		footer nav a {
+			font-size: 16px;
+			padding: 10px 15px;
+		}
+	}
 
 footer .copyright {
 	font-size: 0.9em;
