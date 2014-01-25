@@ -24,6 +24,7 @@
 			top: ( imagesContainer.height() - visible.height() ) / 2 > 0 ? ( imagesContainer.height() - visible.height() ) / 2 : 0
 		});
 	}
+	imagesContainer.find('img').first().load(resizeImageContainer);
 	win.on( 'load resize', resizeImageContainer );
 
 	function showNextImage() {
@@ -36,9 +37,5 @@
 	}
 
 	imagesContainer.find('img').click(showNextImage);
-
-	win.load(function() {
-		$('.preload').removeClass('preload');
-	});
 
 })(jQuery);
