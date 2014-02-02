@@ -9,9 +9,10 @@ $BASE = file_exists('local.txt') || file_exists('../local.txt') ? 'http://localh
     http://www.parsleyandsprouts.com
 
 -->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html class="no-js">
+
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
@@ -42,6 +43,7 @@ $BASE = file_exists('local.txt') || file_exists('../local.txt') ? 'http://localh
     <a href="<?= $BASE; ?>">
         <img src="<?= $BASE; ?>/images/logo.png" alt="DDUGOFF">
     </a>
+    <p>2014 Fall/Winter</p>
 </header>
 
 <main>    

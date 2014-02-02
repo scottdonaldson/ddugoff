@@ -6,7 +6,9 @@
 		footer = $('footer');
 
 	var imagesContainer = $('#images'),
-		images;
+		images,
+		prev = $('.prev'),
+		next = $('.next');
 	function resizeImageContainer() {
 
 		// Set height of container
@@ -23,19 +25,54 @@
 			left: ( imagesContainer.width() - visible.width() ) / 2,
 			top: ( imagesContainer.height() - visible.height() ) / 2 > 0 ? ( imagesContainer.height() - visible.height() ) / 2 : 0
 		});
+
+		prev.css({
+			left: ( imagesContainer.width() - visible.width() ) / 2 - ( prev.width() + 10 )
+		});
+		next.css({
+			left: ( imagesContainer.width() + visible.width() ) / 2 + ( next.width() + 10 )
+		});
 	}
 	imagesContainer.find('img').first().load(resizeImageContainer);
 	win.on( 'load resize', resizeImageContainer );
 
-	function showNextImage() {
-		var target = imagesContainer.find('img:visible').next().length > 0 ? imagesContainer.find('img:visible').next() : imagesContainer.find('img').first();
-		$(this).fadeOut(500);
-		target.fadeIn(500).css({
-			left: ( imagesContainer.width() - target.width() ) / 2,
-			top: ( imagesContainer.height() - target.height() ) / 2 > 0 ? ( imagesContainer.height() - target.height() ) / 2 : 0
-		});
+	var isFading = false;
+
+	function fadeImages( current, target ) {
+		if ( !isFading ) {
+
+			isFading = true;
+
+			current.fadeOut(500);
+			target.fadeIn(500).css({
+				left: ( imagesContainer.width() - target.width() ) / 2,
+				top: ( imagesContainer.height() - target.height() ) / 2 > 0 ? ( imagesContainer.height() - target.height() ) / 2 : 0
+			});
+
+			setTimeout(function(){
+				isFading = false;
+			}, 500);
+		}
 	}
 
-	imagesContainer.find('img').click(showNextImage);
+	function showNextImage() {
+		var current = imagesContainer.find('img:visible'),
+			target = current.next('img').length > 0 ? current.next('img') : imagesContainer.find('img').first();
+		fadeImages( current, target );
+	}
+
+	function showPrevImage() {
+		var current = imagesContainer.find('img:visible'),
+			target = current.prev('img').length > 0 ? current.prev('img') : imagesContainer.find('img').last();
+		fadeImages( current, target );
+	}
+
+	imagesContainer.find('img').click( showNextImage );
+	next.click( showNextImage );
+	prev.click( showPrevImage );
+	win.keydown(function(e){
+		if (e.keyCode === 37) { showPrevImage(); }
+		if (e.keyCode === 39) { showNextImage(); }
+	});
 
 })(jQuery);

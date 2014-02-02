@@ -66,17 +66,24 @@ a:active, a:hover, a:focus {
 .lowercase { text-transform: none; }
 .uppercase { text-transform: uppercase; }
 
-/* ----- Header ----- */
+/* ----- Header and structure ----- */
 
 header {
 	padding: 0 20px 10px;
+	text-align: center;
 	z-index: 999;
 }
 
 header a img {
 	display: block;
-	margin: 0 auto;
+	margin: 0 auto 5px;
 	width: 250px;
+}
+
+header p { margin: 0; }
+
+main {
+	padding: 0 30px; /* give the next/prev arrows some space */
 }
 
 /* ----- Images ----- */
@@ -92,6 +99,34 @@ header a img {
 	position: absolute;
 	top: 0;
 	width: auto;
+}
+
+.prev,
+.next {
+	background-size: 100% 100%;
+	cursor: pointer;
+	height: 20px;
+	margin: -10px 0 0 -10px;
+	left: 50%;
+	opacity: 0.2;
+	position: absolute;
+	top: 50%;
+	transition: 0.2s opacity;
+	width: 20px;
+}
+	.prev:active,
+	.prev:hover,
+	.next:active,
+	.next:hover {
+		opacity: 0.333;
+	}
+
+.prev {
+	background-image: url(../images/prev.svg);
+}
+
+.next {
+	background-image: url(../images/next.svg);
 }
 
 /* ----- Pages ------ */

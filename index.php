@@ -1,6 +1,7 @@
 <?php include('header.php'); ?>
 
 	<div id="images">
+	
 		<img src="<?= $BASE; ?>/images/DDUGOFF_14FW_01.jpg">
 		<img src="<?= $BASE; ?>/images/DDUGOFF_14FW_02.jpg">
 		<img src="<?= $BASE; ?>/images/DDUGOFF_14FW_03.jpg">
@@ -20,6 +21,9 @@
 		<img src="<?= $BASE; ?>/images/DDUGOFF_14FW_17.jpg">
 		<img src="<?= $BASE; ?>/images/DDUGOFF_14FW_18.jpg">
 		<img src="<?= $BASE; ?>/images/DDUGOFF_14FW_19.jpg">
+
+		<div class="prev"></div>
+		<div class="next"></div>
 	</div>
 
 <?php include('footer.php'); ?>
