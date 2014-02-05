@@ -12,7 +12,7 @@
 	function resizeImageContainer() {
 
 		// Set height of container
-		imagesContainer.height( win.height() - header.outerHeight() - footer.outerHeight() );
+		imagesContainer.height( !body.hasClass('admin-bar') ? win.height() - header.outerHeight() - footer.outerHeight() : win.height() - header.outerHeight() - footer.outerHeight() - 28 );
 
 		// Find the visible image and position it
 		var visible = imagesContainer.find('img:visible');

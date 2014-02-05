@@ -1,7 +1,3 @@
-<?php 
-// Set BASE url
-$BASE = file_exists('local.txt') || file_exists('../local.txt') ? 'http://localhost/dugoff-2.0' : 'http://www.ddugoff.com';
-?>
 <!DOCTYPE html>
 <!--
 
@@ -22,16 +18,15 @@ $BASE = file_exists('local.txt') || file_exists('../local.txt') ? 'http://localh
 
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
-    <link rel="stylesheet" href="<?= $BASE; ?>/css/normalize.css">
-    <link rel="stylesheet" href="<?= $BASE; ?>/css/style.css">
+    <link rel="stylesheet" href="<?= bloginfo('template_url'); ?>/css/style.min.css">
     
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="<?= $BASE; ?>/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-    <script src="<?= $BASE; ?>/js/vendor/modernizr.js"></script>
+    
+    <script src="<?= bloginfo('template_url'); ?>/js/vendor/modernizr.js"></script>
 
+    <?php wp_head(); ?>
 </head>
 
-<body>
+<body <?php body_class(); ?>>
 <div id="page" class="hfeed site">
 
 	<!--[if lt IE 8]>
@@ -40,10 +35,10 @@ $BASE = file_exists('local.txt') || file_exists('../local.txt') ? 'http://localh
 
 <header>
     <h1 class="visuallyhidden">DDUGOFF</h1>
-    <a href="<?= $BASE; ?>">
-        <img src="<?= $BASE; ?>/images/logo.png" alt="DDUGOFF">
+    <a href="<?= home_url(); ?>">
+        <img src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
+        <p class="uppercase">2014 Fall/Winter</p>
     </a>
-    <p>2014 Fall/Winter</p>
 </header>
 
 <main>    

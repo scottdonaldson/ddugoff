@@ -1,22 +1,18 @@
 </main>
 
 <footer>
-	<nav>
-		<a href="<?= $BASE; ?>/about">About</a>
-		<a href="<?= $BASE; ?>/contact">Contact</a>
-		<a href="<?= $BASE; ?>/stockists">Stockists</a>
-	</nav>
+	<?php wp_nav_menu('Primary Menu'); ?>
 
-	<div class="copyright uppercase">
+	<div class="copyright">
 		&copy; <?= date('Y'); ?> DDUGOFF all rights reserved
 	</div>
 </footer> 
 
 </div><!-- #page -->
 
-<?php /* Modernizr and jQuery are included in the <head>, other scripts here */ ?>
-<script src="<?= $BASE; ?>/js/plugins.js"></script>
-<script src="<?= $BASE; ?>/js/script.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="<?= bloginfo('template_url'); ?>/js/vendor/jquery.js"><\/script>')</script>
+<script src="<?= bloginfo('template_url'); ?>/js/min/script.min.js"></script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -28,5 +24,6 @@
   ga('send', 'pageview');
 </script>
 
+<?php wp_footer(); ?>
 </body>
 </html>
