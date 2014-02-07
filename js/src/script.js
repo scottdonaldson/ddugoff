@@ -5,6 +5,11 @@
 		header = $('header'),
 		footer = $('footer');
 
+	function addBodyPaddingBottom() {
+		body.css( 'padding-bottom', footer.outerHeight() );
+	}
+	win.on( 'load resize', addBodyPaddingBottom );
+
 	var imagesContainer = $('#images'),
 		images,
 		prev = $('.prev'),
