@@ -10,7 +10,7 @@ the_post(); ?>
 		$clippings = get_field('clipping');
 
 		foreach ( $clippings as $clipping ) { ?>
-			<p class="uppercase"><a href="<?= $clipping['link']; ?>"><?= $clipping['link_text']; ?></a></p>
+			<div class="uppercase"><?= $clipping['link']; ?></div>
 			<img src="<?= $clipping['image']; ?>">
 		<?php } ?>
 	</div>

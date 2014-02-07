@@ -198,6 +198,11 @@ footer {
                 font-size: 16px;
                 padding: 10px 15px;
             }
+
+            @media screen and (max-width: 400px) {
+                font-size: 16px;
+                padding: 10px;
+            }
         }
     }
 } 
