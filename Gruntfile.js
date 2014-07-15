@@ -36,7 +36,7 @@ module.exports = function(grunt) {
                 browsers: ['> 1%']
             },
             no_dest: {
-                src: 'css/style.css'
+                src: 'css/style.min.css'
             }
         },
 

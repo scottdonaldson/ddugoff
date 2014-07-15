@@ -1,83 +1,127 @@
 (function($){
 
 	var win = $(window),
-		body = $('body'),
-		header = $('header'),
-		footer = $('footer');
+		body = $('body');
 
-	function addBodyPaddingBottom() {
-		body.css( 'padding-bottom', footer.outerHeight() );
-	}
-	win.on( 'load resize', addBodyPaddingBottom );
+	var nav = $('nav'),
+		images = $('.image'),
+		numImages = images.length,
+		cutoff = Math.floor(numImages / 2),
+		imagesContainer = $('#images');
 
-	var imagesContainer = $('#images'),
-		images,
-		prev = $('.prev'),
-		next = $('.next');
-	function resizeImageContainer() {
+	function createSlideshow() {
+		images.each(function(){
+			
+			var $this = $(this),
+				left;
 
-		// Set height of container
-		imagesContainer.height( !body.hasClass('admin-bar') ? win.height() - header.outerHeight() - footer.outerHeight() : win.height() - header.outerHeight() - footer.outerHeight() - 28 );
+			// adjust height to height of window screen
+			$this.height( body.hasClass('admin-bar') ? win.height() - 32 : win.height() );
 
-		// Find the visible image and position it
-		var visible = imagesContainer.find('img:visible');
-
-		// If no images are visible, then the page has just loaded and we choose the first image
-		if ( visible.length === 0 ) {
-			visible = imagesContainer.find('img:first').fadeIn(500);
-		}
-		visible.css({
-			left: ( imagesContainer.width() - visible.width() ) / 2,
-			top: ( imagesContainer.height() - visible.height() ) / 2 > 0 ? ( imagesContainer.height() - visible.height() ) / 2 : 0
-		});
-
-		prev.css({
-			left: ( imagesContainer.width() - visible.width() ) / 2 - ( prev.width() + 10 )
-		});
-		next.css({
-			left: ( imagesContainer.width() + visible.width() ) / 2 + ( next.width() + 10 )
-		});
-	}
-	imagesContainer.find('img').first().load(resizeImageContainer);
-	win.on( 'load resize', resizeImageContainer );
-
-	var isFading = false;
-
-	function fadeImages( current, target ) {
-		if ( !isFading ) {
-
-			isFading = true;
-
-			current.fadeOut(500);
-			target.fadeIn(500).css({
-				left: ( imagesContainer.width() - target.width() ) / 2,
-				top: ( imagesContainer.height() - target.height() ) / 2 > 0 ? ( imagesContainer.height() - target.height() ) / 2 : 0
+			// from the 1st image up to about halfway through
+			if ( $this.index() <= Math.floor(numImages / 2) ) { 
+				left = win.width() / 2 + $this.index() * $this.width();
+			} else {
+				left = win.width() / 2 - ( numImages - $this.index() ) * $this.width();
+			}
+			$this.css({
+				'left': left
 			});
 
-			setTimeout(function(){
-				isFading = false;
-			}, 500);
+			$this.attr('data-showing', $this.index());
+		});
+	}
+
+	createSlideshow();
+
+	function showNav() {
+		var showing = $('[data-showing="0"]');
+		if ( showing.length > 0 ) {
+			nav.css('left', parseInt(showing.css('left'), 10) - showing.width() / 2 - 200).animate({
+				opacity: 1
+			});
+		} else {
+			setTimeout(showNav, 10);
 		}
 	}
+	showNav();
+	win.on('resize', showNav);
 
-	function showNextImage() {
-		var current = imagesContainer.find('img:visible'),
-			target = current.next('img').length > 0 ? current.next('img') : imagesContainer.find('img').first();
-		fadeImages( current, target );
+	function adjustSlideshow() {
+		images.each(function(){
+
+			var $this = $(this),
+				is = +$this.attr('data-showing'),
+				left;
+
+			// adjust height to height of window screen
+			$this.height( body.hasClass('admin-bar') ? win.height() - 32 : win.height() );
+
+			// from the 1st image up to about halfway through
+			if ( is <= cutoff ) { 
+				left = win.width() / 2 + is * $this.width();
+			} else {
+				left = win.width() / 2 - ( numImages - is ) * $this.width();
+			}
+			$this.css({
+				'left': left
+			});
+
+		});
 	}
 
-	function showPrevImage() {
-		var current = imagesContainer.find('img:visible'),
-			target = current.prev('img').length > 0 ? current.prev('img') : imagesContainer.find('img').last();
-		fadeImages( current, target );
+	win.on('resize', adjustSlideshow);
+
+	function showImage(n) { // n an integer
+		console.log(n);
+		images.each(function() {
+
+			var $this = $(this),
+				was = +$this.attr('data-showing'),
+				is = (was + n + numImages) % numImages,
+				left;
+
+			// from the 1st image up to about halfway through
+			if ( is <= cutoff ) { 
+				left = win.width() / 2 + is * $this.width();
+			} else {
+				left = win.width() / 2 - ( numImages - is ) * $this.width();
+			}
+
+			// hide the one that's going to be zooming all the way across
+			if ( ( was <= cutoff && is > cutoff && n > 0 ) ||
+				 ( was > cutoff && is <= cutoff && n < 0 ) ) {
+				$this.hide();
+			}
+
+			$this.animate({
+				'left': left
+			}, 600, function(){
+				// after animation has completed, show it again
+				if ( ( was <= cutoff && is > cutoff && n > 0 ) ||
+					 ( was > cutoff && is <= cutoff && n < 0 ) ) {
+					$this.show();
+				}
+			});
+
+			$this.attr('data-showing', is);
+			
+		});
 	}
 
-	imagesContainer.find('img').click( showNextImage );
-	next.click( showNextImage );
-	prev.click( showPrevImage );
+	images.click(function(){
+		var $this = $(this),
+			is = +$this.attr('data-showing');
+		if ( is !== 0 && is <= cutoff ) {
+			showImage( -is );
+		} else if ( is > cutoff ) {
+			showImage( numImages - is );
+		}
+	});
+
 	win.keydown(function(e){
-		if (e.keyCode === 37) { showPrevImage(); }
-		if (e.keyCode === 39) { showNextImage(); }
+		if (e.keyCode === 37) { showImage(1); }
+		if (e.keyCode === 39) { showImage(-1); }
 	});
 
 })(jQuery);

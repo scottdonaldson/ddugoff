@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <!--
 
     Site by Parsley & Sprouts
     http://www.parsleyandsprouts.com
 
 -->
-<html class="no-js">
+<html class="no-js" lang="en-US">
 
 <head>
 
@@ -20,7 +20,6 @@
 
     <link rel="stylesheet" href="<?= bloginfo('template_url'); ?>/css/style.min.css">
     
-    
     <script src="<?= bloginfo('template_url'); ?>/js/vendor/modernizr.js"></script>
 
     <?php wp_head(); ?>
@@ -29,16 +28,16 @@
 <body <?php body_class(); ?>>
 <div id="page" class="hfeed site">
 
-	<!--[if lt IE 8]>
-        <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+	<!--[if lt IE 9]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
 <header>
     <h1 class="visuallyhidden">DDUGOFF</h1>
-    <a href="<?= home_url(); ?>">
-        <img src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
-        <p class="uppercase">2014 Fall/Winter</p>
-    </a>
 </header>
+
+<nav>
+    <img src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
+<?php wp_nav_menu('Primary Menu'); ?></nav>
 
 <main>    

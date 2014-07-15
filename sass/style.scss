@@ -54,8 +54,9 @@
 
 body {
     color: #002539;
-    font-family: 'Trade Gothic';
+    font-family: "Trade Gothic";
     font-size: 16px;
+    overflow: hidden;
 }
 
 img {
@@ -86,8 +87,6 @@ a:focus {
 /* ----- Header and structure ----- */
 
 header {
-    padding: 10px 20px;
-    text-align: center;
     z-index: 999;
 }
 
@@ -107,52 +106,63 @@ header p {
     margin: 0;
 }
 
-main {
-    padding: 0 30px; // give the next/prev arrows some space
+nav {
+    opacity: 0;
+    padding: 10px;
+    position: absolute;
+    width: 200px;
+    z-index: 2;
 }
+
+#menu-primary-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    
+    li {
+        clear: both;
+        float: right;
+        text-transform: uppercase;
+       
+        a {
+            display: block;
+            padding: 6px 7px;
+            
+            @media screen and (max-width: 500px) {
+                font-size: 16px;
+                padding: 10px 15px;
+            }
+
+            @media screen and (max-width: 400px) {
+                font-size: 16px;
+                padding: 10px;
+            }
+        }
+    }
+} 
 
 /* ----- Images ----- */
 
 #images {
-    width: 100%;
-}
-
-#images img {
-    cursor: pointer;
-    display: none;
-    max-height: 100%;
-    position: absolute;
+    left: 0;
+    position: fixed;
     top: 0;
-    width: auto;
+
+    .admin-bar & {
+        top: 32px;
+    }
 }
 
-.prev,
-.next {
-    background-size: 100% 100%;
-    cursor: pointer;
-    height: 20px;
-    margin: -10px 0 0 -10px;
-    left: 50%;
-    opacity: 0.2;
-    position: absolute;
-    top: 50%;
-    transition: 0.2s opacity;
-    width: 20px;
-}
-
-.prev:active,
-.prev:hover,
-.next:active,
-.next:hover {
+.image {
+    background-color: #fff;
     opacity: 0.333;
-}
+    position: absolute;
+    transform: translateX(-50%);
+    transition: 0.6s opacity;
 
-.prev {
-    background-image: url(../images/prev.svg);
-}
-
-.next {
-    background-image: url(../images/next.svg);
+    &[data-showing="0"] {
+        opacity: 1;
+    }
 }
 
 /* ----- Pages ------ */
@@ -169,43 +179,6 @@ main {
     width: 100%;
 }
 
-/* ----- Footer ----- */
-
-footer {
-    background: rgba(255, 255, 255, 0.75);
-    bottom: 0;
-    @include uppercase;
-    left: 0;
-    text-align: center;
-    padding: 0 0 10px 0;
-    position: fixed;
-    width: 100%;
-}
-
-#menu-primary-menu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    
-    li {
-        display: inline-block;
-       
-        a {
-            display: block;
-            padding: 10px 30px;
-            
-            @media screen and (max-width: 500px) {
-                font-size: 16px;
-                padding: 10px 15px;
-            }
-
-            @media screen and (max-width: 400px) {
-                font-size: 16px;
-                padding: 10px;
-            }
-        }
-    }
-} 
 
 footer .copyright {
     font-size: 0.9em;

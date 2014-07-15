@@ -3,3 +3,6 @@ local.txt
 */.DS_Store
 node_modules
 .sass-cache
+functions/acf-options-page
+functions/acf-repeater
+functions/advanced-custom-fields
