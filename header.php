@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" href="<?= bloginfo('template_url'); ?>/images/favicon.ico">
     
-    <title>DDUGOFF</title>
+    <title><?php if ( !is_front_page() ) echo get_the_title() . ' | '; ?>DDUGOFF</title>
 
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
@@ -37,7 +37,9 @@
 </header>
 
 <nav>
-    <img src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
-<?php wp_nav_menu('Primary Menu'); ?></nav>
+    <a href="<?= home_url(); ?>" rel="home">
+        <img src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
+    </a>
+    <?php wp_nav_menu('Primary Menu'); ?></nav>
 
 <main>    

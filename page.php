@@ -1,7 +1,17 @@
-<?php get_header(); the_post(); ?>
+<?php 
+if ( ajax_request() ) {
 
-<div id="content">
-	<?php the_content(); ?>
-</div>
+	output_content();
 
-<?php get_footer(); ?>
+} else {
+
+	get_header(); the_post(); ?>
+
+	<div id="container">
+		<?php the_content(); ?>
+	</div>
+
+	<?php get_footer(); 
+
+}
+?>
