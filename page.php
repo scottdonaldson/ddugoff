@@ -7,8 +7,10 @@ if ( ajax_request() ) {
 
 	get_header(); the_post(); ?>
 
-	<div id="container">
-		<?php the_content(); ?>
+	<div id="container" class="preload">
+		<div id="content">
+			<?php the_content(); ?>
+		</div>
 	</div>
 
 	<?php get_footer(); 

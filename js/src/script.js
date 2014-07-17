@@ -1,16 +1,21 @@
 (function($){
 
 	var win = $(window),
-		body = $('body');
+		body = $('body'),
+		main = $('main');
 
 	var nav = $('nav'),
 		imagesContainer = $('#images'),
 		images = $('.image'),
 		numImages = images.length,
-		cutoff = Math.floor(numImages / 2);
+		cutoff = Math.floor(numImages / 2),
+		arrow = $('#arrow');
 
 	function createSlideshow() {
-		images.each(function(){
+
+		imagesContainer.height( body.hasClass('admin-bar') ? win.height() - 32 : win.height() );
+
+		images.each(function(index){
 			
 			var $this = $(this),
 				left;
@@ -29,10 +34,52 @@
 			});
 
 			$this.attr('data-showing', $this.index());
+
+			if ( $this.index() === 0 && !body.hasClass('page-template-pagesgallery-php') ) {
+				sizeContainer();
+			}
 		});
 	}
 
 	createSlideshow();
+
+	// if not on a gallery page...
+	function grabImages() {
+		var req = new XMLHttpRequest();
+		req.open('GET', document.getElementById('site-url').innerHTML + '?images=true', true);
+
+		req.onload = function() {
+			if (req.status >= 200 && req.status < 400) {
+				
+				data = JSON.parse( req.responseText );
+				
+				data.forEach(function(el, index){
+					
+					var image = $('<img src="' + el.image + '" class="image">');
+					images = images.add(image);
+
+					if ( index === data.length - 1 ) {
+
+						numImages = images.length;
+
+						imagesContainer = $('<div id="images">');
+						imagesContainer.append(images).prependTo('#page');
+						
+						createSlideshow();
+						positionContent(function(){
+							container.removeClass('preload');
+						});
+
+						waitForImagesLoaded();
+					}
+				});
+			}
+		};
+		req.send();
+	}
+	if ( !body.hasClass('page-template-pagesgallery-php') ) {
+		grabImages();
+	}
 
 	function showNav() {
 		var showing = $('[data-showing="0"]');
@@ -46,36 +93,48 @@
 	}
 	showNav();
 
-	var imgLoad = imagesLoaded('#images');
-	imgLoad.on('progress', function( instance, image ){
+	function waitForImagesLoaded() {
+		var imgLoad = imagesLoaded('#images');
+		imgLoad.on('progress', function( instance, image ){
 		
-		image.img.classList.remove('preload');
-		createSlideshow();
-		showNav();
-	});
+			image.img.classList.remove('preload');
+			createSlideshow();
+			showNav();
+		});
+	}
+	waitForImagesLoaded();
 
 	win.on('resize', function(){
 		waitForFinalEvent(showNav, 600, 'showNav');
 	});
 
 	function showPrevOrNext() {
-		var $this = $(this),
-			showing = +$this.attr('data-showing');
+		if ( container.length === 0 ) {
 
-		if ( showing >= 1 && showing <= cutoff ) {
-			$this.addClass('nexting');
-		} else if ( showing <= numImages - 1 && showing > cutoff ) {
-			$this.addClass('preving');
+			var $this = $(this),
+				showing = +$this.attr('data-showing');
+
+			if ( showing >= 1 && showing <= cutoff ) {
+				body.addClass('nexting').removeClass('preving');
+			} else if ( showing <= numImages - 1 && showing > cutoff ) {
+				body.addClass('preving').removeClass('nexting');
+			} else {
+				hidePrevAndNext();
+			}
+
 		} else {
 			hidePrevAndNext();
 		}
 	}
 	function hidePrevAndNext() {
-		$('.nexting, .preving').removeClass('nexting preving');
+		body.removeClass('nexting preving');
 	}
 	images.on( 'mouseover', showPrevOrNext );
 
 	function adjustSlideshow() {
+
+		imagesContainer.height( body.hasClass('admin-bar') ? win.height() - 32 : win.height() );
+
 		images.each(function(){
 
 			var $this = $(this),
@@ -86,11 +145,10 @@
 			$this.height( body.hasClass('admin-bar') ? win.height() - 32 : win.height() );
 
 			// from the 1st image up to about halfway through
-			if ( is <= cutoff ) { 
-				left = win.width() / 2 + is * $this.width();
-			} else {
-				left = win.width() / 2 - ( numImages - is ) * $this.width();
-			}
+			left = is <= cutoff ? 
+				win.width() / 2 + is * $this.width() : 
+				win.width() / 2 - ( numImages - is ) * $this.width();
+			
 			$this.css({
 				'left': left
 			});
@@ -103,45 +161,50 @@
 	});
 
 	function showImage(n) { // n an integer
+
+		console.log('showing image');
 		
 		hidePrevAndNext();
 
-		images.each(function() {
+		if ( container.length === 0 ) {
 
-			var $this = $(this),
-				was = +$this.attr('data-showing'),
-				is = (was + n + numImages) % numImages,
-				left;
+			images.each(function() {
 
-			// from the 1st image up to about halfway through
-			if ( is <= cutoff ) { 
-				left = win.width() / 2 + is * $this.width();
-			} else {
-				left = win.width() / 2 - ( numImages - is ) * $this.width();
-			}
+				var $this = $(this),
+					was = +$this.attr('data-showing'),
+					is = (was + n + numImages) % numImages,
+					left;
 
-			// hide the one that's going to be zooming all the way across
-			if ( ( was <= cutoff && is > cutoff && n > 0 ) ||
-				 ( was > cutoff && is <= cutoff && n < 0 ) ) {
-				$this.hide();
-			}
+				// from the 1st image up to about halfway through
+				if ( is <= cutoff ) { 
+					left = win.width() / 2 + is * $this.width();
+				} else {
+					left = win.width() / 2 - ( numImages - is ) * $this.width();
+				}
 
-			$this.animate({
-				'left': left
-			}, 600, function(){
-				// after animation has completed, show it again
+				// hide the one that's going to be zooming all the way across
 				if ( ( was <= cutoff && is > cutoff && n > 0 ) ||
 					 ( was > cutoff && is <= cutoff && n < 0 ) ) {
-					$this.show();
+					$this.hide();
 				}
-			});
 
-			$this.attr('data-showing', is);
-			
-		});
+				$this.animate({
+					'left': left
+				}, 600, function(){
+					// after animation has completed, show it again
+					if ( ( was <= cutoff && is > cutoff && n > 0 ) ||
+						 ( was > cutoff && is <= cutoff && n < 0 ) ) {
+						$this.show();
+					}
+				});
+
+				$this.attr('data-showing', is);
+			});
+		}
 	}
 
 	images.click(function(){
+		console.log('clicked an image');
 		var $this = $(this),
 			is = +$this.attr('data-showing');
 		if ( is !== 0 && is <= cutoff ) {
@@ -164,7 +227,10 @@
 	function identifyLinks() {
 		links = $('a');
 		links.each(function(){
-			if ( this.href.indexOf( location.origin ) > -1 && this.getAttribute('rel') !== 'home' ) {
+			if ( this.href.indexOf( location.origin ) > -1 && 
+				this.getAttribute('rel') !== 'home' &&
+				$(this).closest('#menu-collections-menu').length === 0 ) {
+
 				this.href = this.href.replace('?request=content', '') + '?request=content';
 			}
 		})
@@ -176,19 +242,38 @@
 		if ( showing.length > 0 ) {
 			container.css({
 				left: parseInt(showing.css('left'), 10),
-				'min-height': win.height(),
-				width: showing.width()
+				'min-height': !body.hasClass('admin-bar') ? win.height() : win.height() - 32,
+				width: showing.width() + 2
 			});
 		}
 	}
 
+	function centerContent(content, winHeight) {
+		content.css('top', ( winHeight - content.height() ) / 2 );
+	}
+
+	function positionContent(callback) {
+		var content = $('#content'),
+			winHeight = !body.hasClass('admin-bar') ? win.height() : win.height() - 32;
+		if ( content.length > 0 && content.height() < winHeight ) {
+			centerContent(content, winHeight);
+		} else if ( content.height() >= winHeight ) {
+			content.css('top', 0);
+		}
+		setTimeout(positionContent, 10);
+
+		if (callback) { callback(); }
+	}
+
 	win.on('resize', function(){
 		waitForFinalEvent(sizeContainer, 600, 'sizeContainer');
+		waitForFinalEvent(positionContent, 600, 'positionContent');
 	});
 
-	function sizeAndInsertContent() {
+	function sizeAndInsertContainer() {
 		sizeContainer();
-		container.appendTo(body).fadeIn();
+		container.prependTo(main).fadeIn();
+		positionContent();
 	}
 
 	function handleContent( data ) {
@@ -200,7 +285,7 @@
 		} else {
 			var clippings = data.clipping;
 			clippings.forEach(function(clipping){
-				content += '<div class="uppercase">' + clipping.link + '</div>';
+				content += '<p class="uppercase">' + clipping.link + '</p>';
 				content += '<img src="' + clipping.image + '">';
 			});
 		}
@@ -214,6 +299,8 @@
 
 			setTimeout(function(){
 				container.html( '<div id="content" style="display: none;">' + content + '</div>' );
+				positionContent();
+				body.removeClass('page-template-pagesgallery-php');
 				$('#content').fadeIn();
 			}, 250);
 			
@@ -221,7 +308,7 @@
 		} else {
 			container = $('<div id="container">');
 			container.html( '<div id="content">' + content + '</div>' ).hide();
-			sizeAndInsertContent();
+			sizeAndInsertContainer();
 		}
 
 	}

@@ -11,15 +11,17 @@ if ( ajax_request() ) {
 	get_header(); 
 	the_post(); ?>
 
+	<div id="container" class="preload">
 		<div id="content">
 			<?php
 			$clippings = get_field('clipping');
 
 			foreach ( $clippings as $clipping ) { ?>
-				<div class="uppercase"><?= $clipping['link']; ?></div>
+				<p class="uppercase"><?= $clipping['link']; ?></p>
 				<img src="<?= $clipping['image']; ?>">
 			<?php } ?>
 		</div>
+	</div>
 
 	<?php get_footer(); 
 

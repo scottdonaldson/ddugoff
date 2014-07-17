@@ -28,6 +28,8 @@
 <body <?php body_class(); ?>>
 <div id="page" class="hfeed site">
 
+    <div id="site-url" class="hidden"><?= home_url(); ?></div>
+
 	<!--[if lt IE 9]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -40,6 +42,15 @@
     <a href="<?= home_url(); ?>" rel="home">
         <img src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
     </a>
-    <?php wp_nav_menu('Primary Menu'); ?></nav>
+    <p class="uppercase">Collections</p>
+    <?php 
+    wp_nav_menu(array(
+        'theme_location' => 'collections'
+    ));
+    wp_nav_menu(array(
+        'theme_location' => 'primary'
+    )); 
+    ?>
+</nav>
 
 <main>    
