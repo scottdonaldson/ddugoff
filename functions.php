@@ -17,6 +17,8 @@ function output_content() {
 	header('Content-type: application/json');
     echo json_encode(array(
     	'title' => get_the_title($post->ID),
+    	'is_gallery' => is_page_template('pages/gallery.php'),
+    	'images' => get_field('images'),
     	'content' => get_page($post->ID)->post_content,
     	'is_press' => is_page_template('pages/press.php'),
     	'clipping' => get_field('clipping')

@@ -25,7 +25,16 @@
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
+<?php
+if ( is_page_template('pages/gallery.php') ) {
+    $display = 'gallery';
+} elseif ( is_page_template('pages/press.php') ) {
+    $display = 'press';
+} else {
+    $display = 'content';
+}
+?>
+<body <?php body_class(); ?> data-display="<?= $display; ?>">
 <div id="page" class="hfeed site">
 
     <div id="site-url" class="hidden"><?= home_url(); ?></div>
