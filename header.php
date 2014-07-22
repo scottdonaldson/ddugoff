@@ -37,7 +37,7 @@ if ( is_page_template('pages/gallery.php') ) {
 <body <?php body_class(); ?> data-display="<?= $display; ?>">
 <div id="page" class="hfeed site">
 
-    <div id="site-url" class="hidden"><?= home_url(); ?></div>
+    <div id="site-url" class="hidden"><?= home_url(); ?>/</div>
 
 	<!--[if lt IE 9]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>

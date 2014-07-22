@@ -58,10 +58,7 @@ body {
     font-family: "Trade Gothic";
     font-size: 16px;
     overflow-x: hidden;
-
-    @media screen and (max-width: $break) {
-        overflow-y: scroll;
-    }
+    overflow-y: scroll;
 }
 
 img {
@@ -194,7 +191,7 @@ nav {
     opacity: 0.2;
     position: absolute;
     transform: translateX(-50%);
-    transition: 0.5s opacity;
+    transition: $opacity_transition opacity;
 
     &.preload {
         opacity: 0 !important;
@@ -233,7 +230,7 @@ nav {
     transform: translateX(-50%);
     -ms-transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
-    transition: 0.2s opacity;
+    transition: $opacity_transition * 1.5 opacity;
     z-index: 2;
 
     &.preload,

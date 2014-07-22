@@ -22,6 +22,9 @@ if ( ajax_request() ) {
 		<?php } ?>
 
 	</div>
+	<div id="container" class="preload">
+		<div id="content"></div>
+	</div>
 
 	<?php get_footer(); 
 

@@ -7,8 +7,20 @@
 	var nav = $('nav'),
 		imagesContainer = $('#images'),
 		images = $('.image'),
-		numImages = images.length,
+		container = $('#container'),
+		theContent = $('#content'),
+		numImages,
+		cutoff;
+
+	if ( body.attr('data-display') === 'gallery' ) {
+		body.attr('data-remember', window.location.origin + window.location.pathname);
+	}
+
+	function imageStats() {
+		numImages = images.length;
 		cutoff = Math.floor(numImages / 2);
+	}
+	imageStats();
 
 	function createSlideshow() {
 
@@ -34,7 +46,7 @@
 
 			$this.attr('data-showing', $this.index());
 
-			if ( $this.index() === 0 && !body.hasClass('page-template-pagesgallery-php') ) {
+			if ( $this.index() === 0 ) {
 				sizeContainer();
 			}
 		});
@@ -43,6 +55,7 @@
 	createSlideshow();
 
 	function removeSlideshow( callback ) {
+
 		images.each(function(){
 			var $this = $(this);
 			$this.addClass('preload');
@@ -54,64 +67,62 @@
 		if ( callback ) callback();
 	}
 
-	function createImagesFromData(data) {
+	function createImagesFromData(data, delay) {
 
-		data.images.forEach(function(el, index){
+		setTimeout(function(){
+			data.images.forEach(function(el, index){
 
-			if ( index === 0 ) images = $();
+				if ( index === 0 ) images = $();
 
-			var image = $('<img src="' + el.image + '" class="image preload">');
-			images = images.add(image);
-
-			if ( index === data.images.length - 1 ) {
-
-				numImages = data.images.length;
-
-				// create an images container if there is not one
-				if ( imagesContainer.length === 0 ) {
-					imagesContainer = $('<div id="images">');
-					imagesContainer.prependTo(main);
-				}
-
-				imagesContainer.append(images);
+				var image = $('<img src="' + el.image + '" class="image preload">');
+				images = images.add(image);
 				
-				setTimeout(function(){
-					if ( body.attr('data-display') === 'gallery' ) createSlideshow();
+				imageStats();
 
-					if ( imagesLoaded([image]) ) {
-						image.removeClass('preload');
-					}
+				if ( index === data.images.length - 1 ) {
 
-					positionContent(function(){
-						if ( body.attr('data-display') !== 'gallery' ) {
-							container.removeClass('preload');
-						} else {
-							// container.addClass('preload');
-						}
-					});
+					numImages = data.images.length;
 
-					waitForImagesLoaded();
-				}, 200);
-			}
-		});
+					imagesContainer.append(images);
+					
+					setTimeout(function(){
+						if ( body.attr('data-display') === 'gallery' )
+							createSlideshow();
+
+						if ( imagesLoaded([image]) )
+							image.removeClass('preload');
+
+						positionContent(function() {
+							if ( body.attr('data-display') !== 'gallery' )
+								container.removeClass('preload');
+						});
+
+						waitForImagesLoaded();
+					}, 200);
+				}
+			});
+		}, delay ? delay : 0 );
 	}
 
 	// if not on a gallery page...
 	function grabImages() {
-		var req = new XMLHttpRequest();
-		req.open('GET', document.getElementById('site-url').innerHTML + '?request=content', true);
+		var req = new XMLHttpRequest(),
+			url = document.getElementById('site-url').innerHTML;
+		req.open('GET', url + '?request=content', true);
 
 		req.onload = function() {
 			if (req.status >= 200 && req.status < 400) {
 				
 				data = JSON.parse( req.responseText );
+
+				body.attr('data-remember', url);
 				
 				createImagesFromData(data);
 			}
 		};
 		req.send();
 	}
-	if ( !body.hasClass('page-template-pagesgallery-php') ) {
+	if ( body.attr('data-display') !== 'gallery' ) {
 		grabImages();
 	}
 
@@ -143,7 +154,7 @@
 	});
 
 	function showPrevOrNext() {
-		if ( container.length === 0 ) {
+		if ( body.attr('data-display') === 'gallery' ) {
 
 			var $this = $(this),
 				showing = +$this.attr('data-showing');
@@ -163,7 +174,7 @@
 	function hidePrevAndNext() {
 		body.removeClass('nexting preving');
 	}
-	images.on( 'mouseover', showPrevOrNext );
+	body.on( 'mouseover', '.image', showPrevOrNext );
 
 	function adjustSlideshow() {
 
@@ -198,7 +209,7 @@
 		
 		hidePrevAndNext();
 
-		if ( container.length === 0 ) {
+		if ( body.attr('data-display') === 'gallery' ) {
 
 			images.each(function() {
 
@@ -235,7 +246,7 @@
 		}
 	}
 
-	images.click(function(){
+	body.on('click', '.image', function(){
 
 		var $this = $(this),
 			is = +$this.attr('data-showing');
@@ -254,14 +265,12 @@
 
 	// ----- AJAX
 
-	var links = $('a'),
-		container = $('#container');
+	var links = $('a');
 
 	function identifyLinks() {
 		links = $('a');
 		links.each(function(){
-			if ( this.href.indexOf( location.origin ) > -1 && 
-				this.getAttribute('rel') !== 'home' ) {
+			if ( this.href.indexOf( location.origin ) > -1 ) {
 
 				this.href = this.href.replace('?request=content', '') + '?request=content';
 			}
@@ -277,24 +286,21 @@
 				'min-height': !body.hasClass('admin-bar') ? win.height() : win.height() - 32,
 				width: showing.width() + 2
 			});
+		} else {
+			setTimeout(sizeContainer, 10);
 		}
 	}
-
-	function centerContent(content, winHeight) {
-		content.css('top', ( winHeight - content.height() ) / 3 );
-	}
+	sizeContainer();
 
 	function positionContent(callback) {
 		var content = $('#content'),
 			winHeight = !body.hasClass('admin-bar') ? win.height() : win.height() - 32;
-		if ( content.length > 0 && content.height() < winHeight ) {
-			centerContent(content, winHeight);
-		} else if ( content.height() >= winHeight ) {
-			content.css('top', 0);
+		if ( content.length > 0 ) {
+			content.css('top', content.height() < winHeight ? ( winHeight - content.height() ) / 3 : 0 );
 		}
 		setTimeout(positionContent, 10);
 
-		if (callback) { callback(); }
+		if ( callback ) { callback(); }
 	}
 
 	win.on('resize', function(){
@@ -302,36 +308,33 @@
 		waitForFinalEvent(positionContent, 600, 'positionContent');
 	});
 
-	function sizeAndInsertContainer() {
-		sizeContainer();
-		container.prependTo(main).fadeIn();
-		positionContent();
-	}
-
-	function removeContent() {
-		var theContent = $('#content');
-		theContent.fadeOut(function(){
-			theContent.remove();
-		});
-	}
-
-	function handleContent( data ) {
+	function handleContent( data, url ) {
 
 		var content = '',
-			display;
+			display,
+			contentDelay = 0;
 
-		// Gallery page
+		// Going to a gallery page
 		if ( data.is_gallery ) {
 
 			display = 'gallery';
 
-			removeSlideshow(function(){
-				
-				if ( container.length > 0 ) removeContent();
+			// fade out container
+			container.addClass('preload');
 
-				createImagesFromData(data);
+			// Do we remember this one from before?
+			if ( body.attr('data-remember') !== url ) {
 
-			});
+				body.attr('data-remember', url);
+
+				removeSlideshow(function(){
+
+					createImagesFromData(data, 500);
+
+				});
+
+				contentDelay = 500;
+			}
 
 		// Regular ol' page
 		} else if ( !data.is_press ) {
@@ -352,22 +355,27 @@
 			});
 		}
 
-		if ( container.length > 0 ) {
-
-			removeContent();
-			setTimeout(function(){
-				container.html( '<div id="content" style="display: none;">' + content + '</div>' );
-				positionContent();
-				body.removeClass('page-template-pagesgallery-php');
-				$('#content').fadeIn();
-			}, 250);
+		if ( !data.is_gallery ) {
 			
-
-		} else {
-			container = $('<div id="container">');
-			container.html( '<div id="content">' + content + '</div>' ).hide();
-			sizeAndInsertContainer();
+			setTimeout(function(){
+				theContent.animate({
+					opacity: 0
+				});
+				
+			}, contentDelay);
 		}
+
+		setTimeout(function(){
+			theContent.html( content );
+
+			positionContent(function(){
+				theContent.animate({
+					opacity: 1
+				});
+				container.removeClass('preload');
+			});
+
+		}, 500 + contentDelay);
 
 		body.attr('data-display', display);
 
@@ -375,11 +383,21 @@
 
 	function ajaxLoad(e) {
 
-		var _this = this;
+		var _this = this,
+			url = this.href;
 
-		if ( this.href.indexOf( location.origin ) > -1 && this.href.indexOf('?request=content') > -1 ) {
+		// don't do anything if we click on a link to the current page
+		if ( window.location.origin + window.location.pathname === url.replace('?request=content', '') ) {
+			return e.preventDefault();
+		}
+
+		// make sure it's an internal link and that we're AJAXing
+		if ( url.indexOf( location.origin ) > -1 && url.indexOf('?request=content') > -1 ) {
 
 			e.preventDefault();
+
+			// remove ?request=content from the URL
+			url = url.replace('?request=content', '');
 
 			var req = new XMLHttpRequest();
 			req.open('GET', this.href, true);
@@ -388,10 +406,9 @@
 				if (req.status >= 200 && req.status < 400) {
 					
 					data = JSON.parse( req.responseText );
-					handleContent(data);
+					handleContent(data, url);
 
-					var title = data.title + ' | ' + 'DDUGOFF',
-						url = _this.href.replace('?request=content', '');
+					var title = data.title + ' | ' + 'DDUGOFF';
 					window.history.pushState({}, title, url);
 					document.title = title;
 				}

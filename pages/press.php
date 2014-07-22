@@ -11,6 +11,7 @@ if ( ajax_request() ) {
 	get_header(); 
 	the_post(); ?>
 
+	<div id="images"></div>
 	<div id="container" class="preload">
 		<div id="content">
 			<?php
