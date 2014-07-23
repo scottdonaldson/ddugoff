@@ -48,7 +48,7 @@ if ( is_page_template('pages/gallery.php') ) {
 </header>
 
 <nav>
-    <a href="<?= home_url(); ?>" rel="home">
+    <a href="<?= home_url(); ?>/" rel="home">
         <img src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
     </a>
     <p class="uppercase">Collections</p>

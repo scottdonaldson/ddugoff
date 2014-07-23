@@ -10,11 +10,26 @@
 		container = $('#container'),
 		theContent = $('#content'),
 		numImages,
-		cutoff;
+		cutoff,
+		returnToTop = $('.return-to-top');
 
 	if ( body.attr('data-display') === 'gallery' ) {
 		body.attr('data-remember', window.location.origin + window.location.pathname);
 	}
+
+	returnToTop.click(function(){
+		$('html, body').animate({
+			scrollTop: 0
+		}, 1000);
+	});
+
+	// if on a long page, show "return to top"
+	function maybeShowReturnToTop() {
+		if ( body.attr('data-display') === 'gallery' || body.attr('data-display') === 'press' ) {
+			returnToTop.fadeIn();
+		}
+	}
+	maybeShowReturnToTop();
 
 	function imageStats() {
 		numImages = images.length;
@@ -310,6 +325,9 @@
 
 	function handleContent( data, url ) {
 
+		// hide the "return to top" (will fade it in if on a long page)
+		returnToTop.hide();
+
 		var content = '',
 			display,
 			contentDelay = 0;
@@ -375,6 +393,8 @@
 				container.removeClass('preload');
 			});
 
+			maybeShowReturnToTop();
+
 		}, 500 + contentDelay);
 
 		body.attr('data-display', display);
@@ -383,7 +403,7 @@
 
 	function ajaxLoad(e) {
 
-		var _this = this,
+		var $this = $(this),
 			url = this.href;
 
 		// don't do anything if we click on a link to the current page
@@ -395,6 +415,10 @@
 		if ( url.indexOf( location.origin ) > -1 && url.indexOf('?request=content') > -1 ) {
 
 			e.preventDefault();
+
+			// show current menu item
+			nav.find('.current-menu-item').removeClass('current-menu-item');
+			nav.find('[href="' + url + '"]').parent().addClass('current-menu-item');
 
 			// remove ?request=content from the URL
 			url = url.replace('?request=content', '');

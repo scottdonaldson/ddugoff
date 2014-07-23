@@ -88,16 +88,6 @@ a:focus {
 
 /* ----- Header and structure ----- */
 
-header a:active,
-header a:focus,
-header a:hover {
-    color: #002539;
-}
-
-header p {
-    margin: 0;
-}
-
 nav {
     opacity: 0;
     padding: 20px;
@@ -127,6 +117,17 @@ nav {
         @media screen and (max-width: $break) {
             float: none;
             text-align: center;
+        }
+    }
+
+    .current-menu-item {
+        a {
+            &:active, &:focus, &:hover {
+                color: #002539;
+            }
+            &:after {
+                content: " »";
+            }
         }
     }
 }
@@ -180,6 +181,7 @@ nav {
 
         @media screen and (max-width: $break) {
             display: block;
+            height: auto !important;
             position: relative;
             top: 0 !important;
         }
@@ -221,6 +223,13 @@ nav {
     cursor: w-resize;
 }
 
+.nexting,
+.preving {
+    @media screen and (max-width: $break) {
+        cursor: auto;
+    }
+}
+
 /* ----- Pages ------ */
 
 #container {
@@ -241,6 +250,7 @@ nav {
     @media screen and (max-width: $break) {
         min-height: 0 !important;
         left: 0 !important;
+        position: relative;
         top: 0 !important;
         transform: translateX(0);
         -ms-transform: translateX(0);
@@ -256,6 +266,10 @@ nav {
         height: auto;
         margin-bottom: 60px;
         width: 100%;
+
+        &:last-child {
+            margin-bottom: 20px;
+        }
     }
 
     @media screen and (max-width: $break) {
@@ -267,6 +281,19 @@ nav {
     }
 }
 
-footer .copyright {
-    font-size: 0.9em;
+.return-to-top {
+    display: none;
+
+    @media screen and (min-width: $break + 1) {
+        display: none !important;
+    }
+
+    @media screen and (max-width: $break) {
+        padding: 0 20px 20px;
+        text-align: center;
+
+        &:active, &:hover {
+            color: #aaa;
+        }
+    }
 }

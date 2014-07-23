@@ -1,5 +1,7 @@
 </main>
 
+<footer class="return-to-top uppercase">Return to top &#8593;</footer>
+
 </div><!-- #page -->
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
