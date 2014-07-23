@@ -122,11 +122,9 @@ nav {
 
     .current-menu-item {
         a {
+            font-weight: bold;
             &:active, &:focus, &:hover {
                 color: #002539;
-            }
-            &:after {
-                content: " »";
             }
         }
     }
@@ -245,6 +243,7 @@ nav {
     &.preload,
     [data-display="gallery"] & {
         opacity: 0;
+        z-index: -1;
     }
 
     @media screen and (max-width: $break) {
