@@ -51,11 +51,7 @@ if ( is_page_template('pages/gallery.php') ) {
     <a href="<?= home_url(); ?>/" rel="home">
         <img src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
     </a>
-    <p class="uppercase">Collections</p>
     <?php 
-    wp_nav_menu(array(
-        'theme_location' => 'collections'
-    ));
     wp_nav_menu(array(
         'theme_location' => 'primary'
     )); 
