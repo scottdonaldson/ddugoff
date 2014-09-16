@@ -18,7 +18,7 @@ function output_content() {
     	'title' => get_the_title($post->ID),
     	'is_gallery' => is_page_template('pages/gallery.php'),
     	'images' => get_field('images'),
-    	'content' => get_page($post->ID)->post_content,
+    	'content' => apply_filters('the_content', get_page($post->ID)->post_content),
     	'is_press' => is_page_template('pages/press.php'),
     	'clipping' => get_field('clipping')
     	)
