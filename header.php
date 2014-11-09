@@ -22,6 +22,10 @@
     
     <script src="<?= bloginfo('template_url'); ?>/js/vendor/modernizr.js"></script>
 
+    <?php if ( get_field('code_snippets', 'option') ) {
+        the_field('code_snippets', 'option');
+    } ?>
+
     <?php wp_head(); ?>
 </head>
 
