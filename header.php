@@ -13,13 +13,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
     <link rel="shortcut icon" href="<?= bloginfo('template_url'); ?>/images/favicon.ico">
-    
+
     <title><?php if ( !is_front_page() ) echo get_the_title() . ' | '; ?>DDUGOFF</title>
 
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
     <link rel="stylesheet" href="<?= bloginfo('template_url'); ?>/css/style.min.css">
-    
+
     <script src="<?= bloginfo('template_url'); ?>/js/vendor/modernizr.js"></script>
 
     <?php if ( get_field('code_snippets', 'option') ) {
@@ -53,13 +53,13 @@ if ( is_page_template('pages/gallery.php') ) {
 
 <nav>
     <a href="<?= home_url(); ?>/" rel="home">
-        <img src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
+        <img src="<?= bloginfo('template_url'); ?>/images/logo-flipped.png" alt="DDUGOFF">
     </a>
-    <?php 
+    <?php
     wp_nav_menu(array(
         'theme_location' => 'primary'
-    )); 
+    ));
     ?>
 </nav>
 
-<main>    
+<main>

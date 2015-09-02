@@ -17,6 +17,11 @@
 		body.attr('data-remember', window.location.origin + window.location.pathname);
 	}
 
+	// expanding nav
+	nav.on('click', 'a', function() {
+		$(this).next('.sub-menu').slideToggle();
+	});
+
 	returnToTop.click(function(){
 		$('html, body').animate({
 			scrollTop: 0
@@ -42,7 +47,7 @@
 		imagesContainer.height( body.hasClass('admin-bar') ? win.height() - 32 : win.height() );
 
 		images.each(function(index){
-			
+
 			var $this = $(this),
 				left;
 
@@ -50,7 +55,7 @@
 			$this.height( body.hasClass('admin-bar') ? win.height() - 32 : win.height() );
 
 			// from the 1st image up to about halfway through
-			if ( $this.index() <= Math.floor(numImages / 2) ) { 
+			if ( $this.index() <= Math.floor(numImages / 2) ) {
 				left = win.width() / 2 + $this.index() * $this.width();
 			} else {
 				left = win.width() / 2 - ( numImages - $this.index() ) * $this.width();
@@ -91,7 +96,7 @@
 
 				var image = $('<img src="' + el.image + '" class="image preload">');
 				images = images.add(image);
-				
+
 				imageStats();
 
 				if ( index === data.images.length - 1 ) {
@@ -99,7 +104,7 @@
 					numImages = data.images.length;
 
 					imagesContainer.append(images);
-					
+
 					setTimeout(function(){
 						if ( body.attr('data-display') === 'gallery' )
 							createSlideshow();
@@ -123,15 +128,14 @@
 	function grabImages() {
 		var req = new XMLHttpRequest(),
 			url = document.getElementById('site-url').innerHTML;
+
 		req.open('GET', url + '?request=content', true);
 
 		req.onload = function() {
 			if (req.status >= 200 && req.status < 400) {
-				
-				data = JSON.parse( req.responseText );
 
+				data = JSON.parse( req.responseText );
 				body.attr('data-remember', url);
-				
 				createImagesFromData(data);
 			}
 		};
@@ -156,7 +160,7 @@
 	function waitForImagesLoaded() {
 		var imgLoad = imagesLoaded('#images');
 		imgLoad.on('progress', function( instance, image ){
-		
+
 			image.img.classList.remove('preload');
 			createSlideshow();
 			showNav();
@@ -205,10 +209,10 @@
 			$this.height( body.hasClass('admin-bar') ? win.height() - 32 : win.height() );
 
 			// from the 1st image up to about halfway through
-			left = is <= cutoff ? 
-				win.width() / 2 + is * $this.width() : 
+			left = is <= cutoff ?
+				win.width() / 2 + is * $this.width() :
 				win.width() / 2 - ( numImages - is ) * $this.width();
-			
+
 			$this.css({
 				'left': left
 			});
@@ -221,7 +225,7 @@
 	});
 
 	function showImage(n) { // n an integer
-		
+
 		hidePrevAndNext();
 
 		if ( body.attr('data-display') === 'gallery' ) {
@@ -234,7 +238,7 @@
 					left;
 
 				// from the 1st image up to about halfway through
-				if ( is <= cutoff ) { 
+				if ( is <= cutoff ) {
 					left = win.width() / 2 + is * $this.width();
 				} else {
 					left = win.width() / 2 - ( numImages - is ) * $this.width();
@@ -265,7 +269,7 @@
 
 		var $this = $(this),
 			is = +$this.attr('data-showing');
-	
+
 		// If not on the current one and <= the cutoff,
 		// go in the opposite dir of the data-showing attr...
 		// otherwise go the difference between number of images
@@ -282,16 +286,14 @@
 
 	var links = $('a');
 
-	function identifyLinks() {
+	(function identifyLinks() {
 		links = $('a');
 		links.each(function(){
-			if ( this.href.indexOf( location.origin ) > -1 ) {
-
+			if ( this.href.indexOf( location.origin ) > -1 && this.href.slice(-1) !== '#' ) {
 				this.href = this.href.replace('?request=content', '') + '?request=content';
 			}
 		})
-	}
-	identifyLinks();
+	})();
 
 	function sizeContainer() {
 		var showing = $('[data-showing="0"]');
@@ -374,12 +376,12 @@
 		}
 
 		if ( !data.is_gallery ) {
-			
+
 			setTimeout(function(){
 				theContent.animate({
 					opacity: 0
 				});
-				
+
 			}, contentDelay);
 		}
 
@@ -411,6 +413,10 @@
 			return e.preventDefault();
 		}
 
+		if ( this.href.slice(-1) === '#' ) {
+			$this.closest('li').addClass('current-menu-item');
+		}
+
 		// make sure it's an internal link and that we're AJAXing
 		if ( url.indexOf( location.origin ) > -1 && url.indexOf('?request=content') > -1 ) {
 
@@ -418,7 +424,8 @@
 
 			// show current menu item
 			nav.find('.current-menu-item').removeClass('current-menu-item');
-			nav.find('[href="' + url + '"]').parent().addClass('current-menu-item');
+			nav.find('[href="' + url + '"]').parent().addClass('current-menu-item')
+				.closest('.sub-menu').prev().parent().addClass('current-menu-item');
 
 			// remove ?request=content from the URL
 			url = url.replace('?request=content', '');
@@ -428,7 +435,7 @@
 
 			req.onload = function() {
 				if (req.status >= 200 && req.status < 400) {
-					
+
 					data = JSON.parse( req.responseText );
 					handleContent(data, url);
 
