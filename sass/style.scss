@@ -105,12 +105,23 @@ nav {
     // logo
     > a { display: block; }
 
-    img {
+    img.flipped {
         display: block;
         float: right;
         margin: 0 10px 30px 0;
         max-width: 50px;
         width: 100%;
+
+        @media screen and (max-width: $break) { display: none; }
+    }
+
+    img.normal {
+        display: none;
+        margin: 0 auto 10px;
+        max-width: 300px;
+        width: 100%;
+        
+        @media screen and (max-width: $break) { display: block; }
     }
 
     p {
@@ -257,7 +268,6 @@ nav {
     &.preload,
     [data-display="gallery"] & {
         opacity: 0;
-        // z-index: -1;
     }
 
     @media screen and (max-width: $break) {

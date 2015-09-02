@@ -53,7 +53,8 @@ if ( is_page_template('pages/gallery.php') ) {
 
 <nav>
     <a href="<?= home_url(); ?>/" rel="home">
-        <img src="<?= bloginfo('template_url'); ?>/images/logo-flipped.png" alt="DDUGOFF">
+        <img class="flipped" src="<?= bloginfo('template_url'); ?>/images/logo-flipped.png" alt="DDUGOFF">
+        <img class="normal" src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
     </a>
     <?php
     wp_nav_menu(array(
