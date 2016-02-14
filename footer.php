@@ -4,9 +4,6 @@
 
 </div><!-- #page -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="<?= bloginfo('template_url'); ?>/js/vendor/jquery.js"><\/script>')</script>
-<script src="<?= bloginfo('template_url'); ?>/js/vendor/imgload.js"></script>
 <script src="<?= bloginfo('template_url'); ?>/js/min/script.min.js"></script>
 
 <?php if ( !is_user_logged_in() ) { ?>
