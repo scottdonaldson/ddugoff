@@ -1,5 +1,16 @@
 var $ = require('jquery'),
-	imagesLoaded = require('imagesloaded');
+	imagesLoaded = require('imagesloaded'),
+	waitForFinalEvent = require('../utils/wait');
+
+////////////////////////////////
+// Components
+
+// Nav
+require('./components/nav')();
+
+// Gallery
+var gallery = require('./components/gallery');
+gallery.createSlideshow();
 
 var win = $(window),
 	body = $('body'),
@@ -17,11 +28,6 @@ var nav = $('nav'),
 if ( body.attr('data-display') === 'gallery' ) {
 	body.attr('data-remember', window.location.origin + window.location.pathname);
 }
-
-// expanding nav
-nav.on('click', 'a', function() {
-	$(this).next('.sub-menu').slideToggle();
-});
 
 returnToTop.click(function(){
 	$('html, body').animate({
@@ -43,51 +49,6 @@ function imageStats() {
 }
 imageStats();
 
-function createSlideshow() {
-
-	imagesContainer.height( body.hasClass('admin-bar') ? win.height() - 32 : win.height() );
-
-	images.each(function(index){
-
-		var $this = $(this),
-			left;
-
-		// adjust height to height of window screen
-		$this.height( body.hasClass('admin-bar') ? win.height() - 32 : win.height() );
-
-		// from the 1st image up to about halfway through
-		if ( $this.index() <= Math.floor(numImages / 2) ) {
-			left = win.width() / 2 + $this.index() * $this.width();
-		} else {
-			left = win.width() / 2 - ( numImages - $this.index() ) * $this.width();
-		}
-		$this.css({
-			'left': left
-		});
-
-		$this.attr('data-showing', $this.index());
-
-		if ( $this.index() === 0 ) {
-			sizeContainer();
-		}
-	});
-}
-
-createSlideshow();
-
-function removeSlideshow( callback ) {
-
-	images.each(function(){
-		var $this = $(this);
-		$this.addClass('preload');
-		setTimeout(function(){
-			$this.remove();
-		}, 210);
-	})
-
-	if ( callback ) callback();
-}
-
 function createImagesFromData(data, delay) {
 
 	setTimeout(function(){
@@ -108,7 +69,7 @@ function createImagesFromData(data, delay) {
 
 				setTimeout(function(){
 					if ( body.attr('data-display') === 'gallery' )
-						createSlideshow();
+						gallery.createSlideshow();
 
 					if ( imagesLoaded([image]) )
 						image.removeClass('preload');
@@ -163,7 +124,7 @@ function waitForImagesLoaded() {
 	imgLoad.on('progress', function( instance, image ){
 
 		image.img.classList.remove('preload');
-		createSlideshow();
+		gallery.createSlideshow();
 		showNav();
 	});
 }
@@ -296,20 +257,6 @@ var links = $('a');
 	})
 })();
 
-function sizeContainer() {
-	var showing = $('[data-showing="0"]');
-	if ( showing.length > 0 ) {
-		container.css({
-			left: parseInt(showing.css('left'), 10),
-			'min-height': !body.hasClass('admin-bar') ? win.height() : win.height() - 32,
-			width: showing.width() + 2
-		});
-	} else {
-		setTimeout(sizeContainer, 10);
-	}
-}
-sizeContainer();
-
 function positionContent(callback) {
 	var content = $('#content'),
 		winHeight = !body.hasClass('admin-bar') ? win.height() : win.height() - 32;
@@ -322,7 +269,7 @@ function positionContent(callback) {
 }
 
 win.on('resize', function(){
-	waitForFinalEvent(sizeContainer, 600, 'sizeContainer');
+	waitForFinalEvent(gallery.sizeContainer, 600, 'sizeContainer');
 	waitForFinalEvent(positionContent, 600, 'positionContent');
 });
 
@@ -348,7 +295,7 @@ function handleContent( data, url ) {
 
 			body.attr('data-remember', url);
 
-			removeSlideshow(function(){
+			gallery.removeSlideshow(function(){
 
 				createImagesFromData(data, 500);
 
