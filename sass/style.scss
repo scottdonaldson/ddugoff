@@ -53,8 +53,10 @@
     position: relative;
 }
 
+$blue: #002539;
+
 body {
-    color: #002539;
+    color: $blue;
     font-family: "Trade Gothic";
     font-size: 16px;
     overflow-x: hidden;
@@ -68,7 +70,7 @@ img {
 
 a,
 a:visited {
-    color: #002539;
+    color: $blue;
     text-decoration: none;
 }
 
@@ -85,6 +87,14 @@ a:focus {
 .lowercase { @include lowercase; }
 @mixin uppercase { text-transform: uppercase; }
 .uppercase { @include uppercase; }
+
+.bg-white,
+.bg-white-trans {
+    background: #fff;
+}
+.bg-white-trans {
+    background: rgba(255, 255, 255, 0.75);
+}
 
 /* ----- Header and structure ----- */
 
@@ -139,7 +149,7 @@ nav {
         > a {
             font-weight: bold;
             &:active, &:focus, &:hover {
-                color: #002539;
+                color: $blue;
             }
         }
     }
@@ -319,4 +329,62 @@ nav {
             color: #aaa;
         }
     }
+}
+
+/* ---------- Pop and modal ----------- */
+
+#modal {
+    display: none;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%);
+    padding: 20px;
+    position: fixed;
+    text-transform: uppercase;
+    width: 300px;
+    z-index: 3;
+
+    form {
+        margin-top: 10px;
+    }
+}
+
+    .modal-content {
+        padding: 7px;
+
+        *:first-child {
+            margin-top: 0;
+        }
+
+        *:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .email {
+        background: #fff;
+        border: 0 none;
+        float: left;
+        padding: 10px;
+        margin: 0 10px 0 0;
+        width: 205px;
+    }
+
+    .submit {
+        background: transparent;
+        border: 0;
+        color: $blue;
+        font-weight: bold;
+        float: left;
+        text-transform: uppercase;
+        padding: 10px 0;
+
+        &:hover { color: #999; }
+    }
+
+#pop {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    .touch & { display: none; }
 }
