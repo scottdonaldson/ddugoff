@@ -101,7 +101,7 @@ function init( DOM, gallery ) {
 		}
 
 		if ( url.slice(-1) === '#' ) {
-			$this.closest('li').addClass('current-menu-item');
+			return $this.closest('li').addClass('current-menu-item');
 		}
 
 		// make sure it's an internal link and that we're AJAXing
