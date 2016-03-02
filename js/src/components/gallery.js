@@ -187,7 +187,9 @@ function init(DOM, nav) {
 		DOM.images().each(function(){
 			var $this = $(this);
 			$this.addClass('preload');
-			setTimeout($this.remove, 210);
+			setTimeout(function() {
+				$this.remove() 
+			}, 210);
 		});
 
 		if ( callback ) callback();

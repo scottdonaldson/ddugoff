@@ -71,7 +71,7 @@ function init( DOM, gallery ) {
 			}, contentDelay);
 		}
 
-		setTimeout(function(){
+		setTimeout(function() {
 			theContent.html( content );
 
 			gallery.positionContent(function(){
@@ -98,6 +98,10 @@ function init( DOM, gallery ) {
 		// don't do anything if we click on a link to the current page
 		if ( window.location.origin + window.location.pathname === url.replace('?request=content', '') ) {
 			return e.preventDefault();
+		}
+
+		if ( $this.closest(nav).length === 0 ) {
+			return;
 		}
 
 		if ( url.slice(-1) === '#' ) {
