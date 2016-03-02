@@ -86,6 +86,17 @@ win.on('resize', function() {
 	waitForFinalEvent(gallery.positionContent, 600, 'positionContent');
 });
 
-// ----- AJAX
+// ----- AJAX & Modal
 
 var ajax = require('./components/ajax')(DOM, gallery);
+var modal = require('./components/modal');
+
+ajax.on('navigate', function() {
+	if ( ajax.pagesVisited() === 3 ) {
+		setTimeout(modal.show, 1500);
+	}
+});
+
+$(document).ready(function() {
+	require('./components/pop')();
+});

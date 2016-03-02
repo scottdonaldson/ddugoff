@@ -2,6 +2,9 @@ var $ = require('jquery');
 
 function init( DOM, gallery ) {
 
+	var evts = {},
+		pages = 1; // pages visited this session
+
 	var body = DOM.body();
 
 	// if on a long page, show "return to top"
@@ -121,15 +124,30 @@ function init( DOM, gallery ) {
 					var title = data.title + ' | ' + 'DDUGOFF';
 					window.history.pushState({}, title, url.replace('?request=content', ''));
 					document.title = title;
+
+					pages++;
+
+					if ( evts.navigate ) evts.navigate();
 				}
 			});
-
 		}
 	}
 
 	body.on('click', 'a', ajaxLoad);
 	maybeShowReturnToTop();
 
+	function pagesVisited() {
+		return pages;
+	}
+
+	function on(evt, cb) {
+		evts[evt] = cb;
+	}
+
+	return {
+		pagesVisited,
+		on
+	};
 }
 
 module.exports = init;

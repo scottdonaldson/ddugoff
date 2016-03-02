@@ -3,7 +3,18 @@
 <footer class="return-to-top uppercase">Return to top &#8593;</footer>
 
 <div id="pop" class="bg-white-trans">
+	<div class="pop-container">
+		<a class="icon-facebook" href="https://www.facebook.com/ddugoff"></a>
+		<a class="icon-twitter" href="https://twitter.com/ddugoff"></a>
+		<a class="icon-instagram" href="https://www.instagram.com/ddugoff"></a>
+
+		<form class="clearfix">
+			<input class="email" type="email" placeholder="Email" required>
+			<input class="submit" type="submit" value="Submit">
+		</form>
+	</div>
 	
+	<span class="open">+</span>
 </div>
 
 <div id="modal" class="bg-white-trans">
