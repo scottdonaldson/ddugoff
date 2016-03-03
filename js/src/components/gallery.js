@@ -4,6 +4,9 @@ var $ = require('jquery'),
 
 function init(DOM, nav) {
 
+	var evts = {},
+		imagesClicked = 0;
+
 	var win = DOM.win(),
 		body = DOM.body(),	
 		isAdmin = body.hasClass('admin-bar'),
@@ -111,6 +114,8 @@ function init(DOM, nav) {
 				$this.attr('data-showing', is);
 			});
 		}
+
+		if ( evts.image ) evts.image();
 	}
 
 	function positionContent(callback) {
@@ -235,6 +240,25 @@ function init(DOM, nav) {
 
 	waitForImagesLoaded();
 
+	function on(evt, cb) {
+		evts[evt] = cb;
+	}
+
+	body.on('click', '.image', function(){
+
+		var $this = $(this),
+			images = DOM.images(),
+			is = +$this.attr('data-showing');
+
+		imagesClicked++;	
+
+		// If not on the current one and <= the cutoff,
+		// go in the opposite dir of the data-showing attr...
+		// otherwise go the difference between number of images
+		// and the data-showing attr
+		showImage( is !== 0 && is <= cutoff(images) ? -is : images.length - is );
+	});
+
 	return {
 		grabImages,
 		createImagesFromData,
@@ -245,7 +269,9 @@ function init(DOM, nav) {
 		removeSlideshow,
 		sizeContainer,
 		showPrevOrNext,
-		hidePrevAndNext
+		hidePrevAndNext,
+		on,
+		imagesClicked: () => imagesClicked
 	};
 }
 

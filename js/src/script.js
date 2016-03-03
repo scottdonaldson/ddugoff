@@ -62,19 +62,6 @@ win.on('resize', function() {
 	waitForFinalEvent(gallery.adjustSlideshow, 500, 'adjustSlideShow');
 });
 
-body.on('click', '.image', function(){
-
-	var $this = $(this),
-		images = DOM.images(),
-		is = +$this.attr('data-showing');
-
-	// If not on the current one and <= the cutoff,
-	// go in the opposite dir of the data-showing attr...
-	// otherwise go the difference between number of images
-	// and the data-showing attr
-	gallery.showImage( is !== 0 && is <= cutoff(images) ? -is : images.length - is );
-});
-
 win.keydown(function(e) {
 	if (e.keyCode === 37) { gallery.showImage(1); }
 	if (e.keyCode === 39) { gallery.showImage(-1); }
@@ -91,8 +78,8 @@ win.on('resize', function() {
 var ajax = require('./components/ajax')(DOM, gallery);
 var modal = require('./components/modal');
 
-ajax.on('navigate', function() {
-	if ( ajax.pagesVisited() === 3 ) {
+gallery.on('image', function() {
+	if ( gallery.imagesClicked() === 3 ) {
 		setTimeout(modal.show, 1500);
 	}
 });

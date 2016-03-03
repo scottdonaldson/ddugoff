@@ -19,6 +19,7 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "browser-cookies": "^1.0.8",
     "imagesloaded": "^4.1.0",
     "jquery": "^2.2.0"
   }
