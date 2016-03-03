@@ -78,6 +78,12 @@ win.on('resize', function() {
 var ajax = require('./components/ajax')(DOM, gallery);
 var modal = require('./components/modal');
 
+ajax.on('navigate', function() {
+	if ( ajax.pagesVisited() === 3 ) {
+		setTimeout(modal.show, 1500);
+	}
+});
+
 gallery.on('image', function() {
 	if ( gallery.imagesClicked() === 3 ) {
 		setTimeout(modal.show, 1500);
