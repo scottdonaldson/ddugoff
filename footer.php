@@ -4,13 +4,14 @@
 
 <div id="pop" class="bg-white-trans">
 	<div class="pop-container">
-		<a class="icon-facebook" href="https://www.facebook.com/ddugoff"></a>
-		<a class="icon-twitter" href="https://twitter.com/ddugoff"></a>
-		<a class="icon-instagram" href="https://www.instagram.com/ddugoff"></a>
+		<a class="icon-facebook" href="https://www.facebook.com/ddugoff" target="_blank"></a>
+		<a class="icon-twitter" href="https://twitter.com/ddugoff" target="_blank"></a>
+		<a class="icon-instagram" href="https://www.instagram.com/ddugoff" target="_blank"></a>
 
-		<form class="clearfix">
-			<input class="email" type="email" placeholder="Email" required>
-			<input class="submit" type="submit" value="Submit">
+		<form action="//ddugoff.us10.list-manage.com/subscribe/post?u=29ac020e64f4734de2809b235&amp;id=60fcba0dcb" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+			<input class="email" type="email" name="EMAIL" id="mce-EMAIL" placeholder="Email" required>
+			<input type="hidden" name="b_29ac020e64f4734de2809b235_60fcba0dcb" tabindex="-1" value="">
+			<input class="submit" type="submit" name="subscribe" id="mc-embedded-subscribe" value="Submit">
 		</form>
 	</div>
 	
