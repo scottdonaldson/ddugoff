@@ -57,6 +57,7 @@ DOM.returnToTop().click(function(){
 });
 
 body.on( 'mouseover', '.image', gallery.showPrevOrNext );
+body.on( 'mouseleave', '.image', gallery.hidePrevOrNext );
 
 win.on('resize', function() {
 	waitForFinalEvent(gallery.adjustSlideshow, 500, 'adjustSlideShow');
