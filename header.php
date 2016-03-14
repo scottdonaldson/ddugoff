@@ -18,7 +18,7 @@
 
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
-    <link rel="stylesheet" href="<?= bloginfo('template_url'); ?>/css/style.css">
+    <link rel="stylesheet" href="<?= bloginfo('template_url'); ?>/css/style.css?cb=20160314_1557">
 
     <script src="<?= bloginfo('template_url'); ?>/js/vendor/modernizr.js"></script>
 
