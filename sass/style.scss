@@ -335,7 +335,6 @@ nav {
 
 #modal {
     display: none;
-    font-size: 20px;
     left: 50%;
     top: 20%;
     transform: translateX(-50%);
@@ -350,7 +349,6 @@ nav {
     }
 
     @media screen and (max-width: 1200px) {
-        font-size: 18px;
         width: 300px;
     }
 
