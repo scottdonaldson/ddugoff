@@ -17,12 +17,12 @@ function hide() {
 }
 
 function show() {
-	// if ( !cookies.get('ddugoff_modal') ) {
+	if ( !cookies.get('ddugoff_modal') ) {
 		modalIsFading = true;
 		$(modalSelector).before( modalShadow.fadeIn(function(){ 
 			$(modalSelector).fadeIn(() => modalIsFading = false);
 		}) );
-	// }
+	}
 }
 
 module.exports = {
