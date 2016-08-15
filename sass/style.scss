@@ -338,10 +338,10 @@ nav {
     left: 50%;
     top: 20%;
     transform: translateX(-50%);
-    padding: 20px;
+    padding: 2.5%;
     position: fixed;
     text-transform: uppercase;
-    width: 400px;
+    width: 40%;
     z-index: 3;
 
     form {
@@ -349,11 +349,13 @@ nav {
     }
 
     .email {
-        width: 290px;
+        border: 2px solid $blue;
+        width: 75%; // fallback
+        width: calc(100% - 65px);
     }
 
-    @media screen and (max-width: 1200px) {
-        width: 300px;
+    .submit {
+        border: 2px solid transparent; // should match .email (above)
     }
 
     @media screen and (max-width: $break) {
@@ -361,8 +363,13 @@ nav {
     }
 }
 
-    .modal-content {
-        padding: 7px;
+    .modal__logo {
+        display: block;
+        margin: 0 auto 10px;
+        max-width: 200px;
+    }
+
+    .modal__content {
 
         *:first-child {
             margin-top: 0;
@@ -380,13 +387,11 @@ nav {
         padding: 10px;
         margin: 0 10px 0 0;
         width: 210px;
-
-        @media screen and (max-width: 1200px) { width: 205px; }
     }
 
     .submit {
         background: transparent;
-        border: 0;
+        border: 0 none;
         color: $blue;
         font-weight: bold;
         float: left;
@@ -397,7 +402,7 @@ nav {
     }
 
     .modal-shadow {
-        background: transparentize($blue, 0.5);
+        background: transparentize(#fff, 0.5);
         position: fixed;
         left: 0;
         top: 0;
