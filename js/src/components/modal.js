@@ -70,8 +70,9 @@ function submit(e) {
 
 		e.preventDefault();
 
-		// user has submitted email, that's great -- set a cookie
-		cookies.set('ddugoff_email', 'submitted', { expires: 365 });
+		// user has submitted email, that's great -- set a cookie so they
+		// don't see it for 10 LONG YEARS
+		cookies.set('ddugoff_email', 'submitted', { expires: 365 * 10 });
 
 		// now actually submit the form
 		form.submit();
