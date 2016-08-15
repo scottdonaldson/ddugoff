@@ -79,27 +79,19 @@ win.on('resize', function() {
 var ajax = require('./components/ajax')(DOM, gallery);
 var modal = require('./components/modal');
 
-/*
-Previously: email signup modal appears after 3 page visits
-or 3 gallery clicks.
-
-Now: always show on page load after X seconds
-(this will not fire if user has rejected it)
+setTimeout(modal.show.bind(null, 'initial'), 1500);
 
 ajax.on('navigate', function() {
-	if ( ajax.pagesVisited() === 3 ) {
-		setTimeout(modal.show, 1500);
+	if ( ajax.pagesVisited() === 2 ) {
+		setTimeout(modal.show.bind(null, 'navigate'), 1500);
 	}
 });
 
 gallery.on('image', function() {
-	if ( gallery.imagesClicked() === 3 ) {
-		setTimeout(modal.show, 1500);
+	if ( gallery.imagesClicked() === 2 ) {
+		setTimeout(modal.show.bind(null, 'gallery'), 1500);
 	}
 });
-*/
-
-setTimeout(modal.show, 1500);
 
 $(document).ready(function() {
 	require('./components/pop')();
