@@ -14,10 +14,10 @@
 	<span class="open">+</span>
 </div>
 
-<div id="modal" class="bg-white-trans">
+<div id="modal">
 	<div class="modal__content">
 		<img class="modal__logo" src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
-		<p>Sign up for our email list for exclusive product launches, occasional newsletters, and special discounts!</p>
+		<p>Sign up for our email list for exclusive product launches, occasional newsletters, and special&nbsp;discounts!</p>
 	</div>
 	<?php get_template_part('signup'); ?>
 </div>
