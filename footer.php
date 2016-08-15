@@ -14,17 +14,17 @@
 	<span class="open">+</span>
 </div>
 
-<div id="modal" class="bg-white-trans">
-	<div class="modal-content bg-white">
-		<p>Want to receive <i>very</i> occasional brand updates and special discounts? Join the <b>DDUGOFF</b> mailing list.</p>
-		<p>We won't spam you. We'll just keep you in the loop.</p>
+<div id="modal">
+	<div class="modal__content">
+		<img class="modal__logo" src="<?= bloginfo('template_url'); ?>/images/logo.png" alt="DDUGOFF">
+		<p>Sign up for our email list for exclusive product launches, occasional newsletters, and special&nbsp;discounts!</p>
 	</div>
 	<?php get_template_part('signup'); ?>
 </div>
 
 </div><!-- #page -->
 
-<script src="<?= bloginfo('template_url'); ?>/js/min/script.min.js?cb=20160314_1557"></script>
+<script src="<?= bloginfo('template_url'); ?>/js/min/script.min.js?cb=20160815"></script>
 
 <?php if ( !is_user_logged_in() ) { ?>
 <script>
